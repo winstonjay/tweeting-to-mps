@@ -1,0 +1,7 @@
+env/
+.env
+.vscode
+
+# data files
+data/mp/mp_list.html
+data/twitter/*
