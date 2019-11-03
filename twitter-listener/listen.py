@@ -1,3 +1,9 @@
+'''
+listen.py :
+
+listens for tweets mentioning the 300 most followed mps
+and writes each tweet as a line in a file in blocks of 5000.
+'''
 import os
 import json
 import random
