@@ -5,3 +5,6 @@ env/
 # data files
 data/mp/mp_list.html
 data/twitter/*
+
+listen.service
+notes
