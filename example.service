@@ -1,0 +1,18 @@
+[Unit]
+Description=My twitter tracking tool.
+After=network.target
+
+[Service]
+Type=simple
+User=your_user
+WorkingDirectory=your_working_dir
+ExecStart=/usr/bin/python3 listen.py
+Restart=on-abort
+
+Environment=TWITTER_CONSUMER_KEY=your_consumer_key
+Environment=TWITTER_CONSUMER_SECRET=your_consumer_secret
+Environment=TWITTER_ACCESS_TOKEN=your_access_token
+Environment=TWITTER_ACCESS_TOKEN_SECRET=your_access_token_secret
+
+[Install]
+WantedBy=multi-user.target
