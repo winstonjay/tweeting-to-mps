@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 Type=simple
-User=your_user
-WorkingDirectory=your_working_dir
+User=ec2-user
+WorkingDirectory=/home/ec2-user
 ExecStart=/usr/bin/python3 listen.py
 Restart=on-abort
 
