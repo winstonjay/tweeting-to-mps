@@ -55,6 +55,7 @@ for mp_row in mp_list:
     mp = {k: v.text.strip() for k, v in zip(data_keys, mp_data)}
     # convert followers to a number not a string
     mp['followers'] = int(mp['followers'].replace(',', ''), base=10)
+    mp['screen_name'] = mp['screen_name'][1:]
     data.append(mp)
 
 with open(MP_LIST_JSON, 'w+') as fp:
