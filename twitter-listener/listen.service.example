@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=ec2-user
 WorkingDirectory=/home/ec2-user
-ExecStart=/usr/bin/python3 listen.py
+ExecStart=/usr/bin/python3 listen.py sample -n 10000 -o data/
 Restart=on-abort
 
 Environment=TWITTER_CONSUMER_KEY=your_consumer_key

@@ -26,7 +26,7 @@ def main():
     auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
     api = tweepy.API(auth)
     # load sample and init listener
-    sample = load_sample(args.mp_file)
+    sample = set(args.mp_file.read().split())
     listener = StreamListener(sample, args.epoch, args.out)
     # init stream with our initialized listener
     stream = tweepy.Stream(auth=api.auth, listener=listener)
@@ -89,25 +89,12 @@ def format_query(screen_names: set) -> str:
     names = ','.join(screen_names)
     return f'{names} -filter:retweets'
 
-def load_sample(filename: str, max_size=400) -> set:
-    'load sample of mp screen names from json file'
-    with open(filename, encoding='utf-8') as fp:
-        data = json.load(fp)
-    sample = sample_most_followers(data, max_size)
-    return set(mp['screen_name'] for mp in sample)
-
-def sample_most_followers(data: list, n: int) -> list:
-    'return top n mps by most followers'
-    def followers(mp):
-        return mp['followers']
-    return sorted(data, key=followers, reverse=True)[:n]
-
 def parse_args():
     parser = argparse.ArgumentParser('Twitter Stream Listener')
     # data/mp/mp_list.json or mp_list.json
     parser.add_argument(
         'mp_file',
-        type=str,
+        type=open,
         help='json file listing all mps')
     parser.add_argument(
         '--epoch',
