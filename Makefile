@@ -9,10 +9,7 @@ deploy_ec2:
 	scp -i $(AWS_EC2_PEM) data/mp/sample "$(INSTANCE):sample"
 	scp -i $(AWS_EC2_PEM) twitter-listener/listen.py "$(INSTANCE):listen.py"
 	scp -i $(AWS_EC2_PEM) twitter-listener/listen.service "$(INSTANCE):/etc/systemd/system/listen.service"
-	ssh -i $(AWS_EC2_PEM) -t $(INSTANCE) \
-		"sudo systemctl daemon-reload && \
-		sudo systemctl restart listen && \
-		sudo systemctl status listen"
+	ssh -i $(AWS_EC2_PEM) -t $(INSTANCE) "sudo systemctl daemon-reload && sudo systemctl restart listen"
 
 ssh_ec2:
 	ssh -i $(AWS_EC2_PEM) $(INSTANCE)
