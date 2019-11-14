@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+#
+# ec2_report:
+#   script for checking on the status of a ec2 instance remotely
+#
+# reqires: 'jq'
+#
+# see makefile for use.
+#
+
+cat << EOM
+--------------------------------------------------------------------
+Status:
+$(date '+%Y-%m-%d %H:%M:%S')
+$(ls data/ | wc -l)      files
+--------------------------------------------------------------------
+EOM
+
+df -h
+
+# see how the service
+sudo systemctl status listen
+
+# pretty print the last tweet we received
+echo 'last tweet recieved:'
+file_arr=($(ls -1r data))
+tail -n 1 "data/$file_arr" | jq '{created_at, text}'

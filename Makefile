@@ -10,7 +10,10 @@ mp_list:
 mp_sample:
 	python3 bin/sample.py > data/mp/sample
 
-deploy_ec2: mp_list mp_sample
+tweet_text_sample:
+	python3 data/twitter/data.zip data/mp/sample
+
+deploy_ec2:
 	scp -i $(AWS_EC2_PEM) data/mp/sample "$(INSTANCE):sample"
 	scp -i $(AWS_EC2_PEM) twitter-listener/listen.py "$(INSTANCE):listen.py"
 	scp -i $(AWS_EC2_PEM) twitter-listener/listen.service "$(INSTANCE):/etc/systemd/system/listen.service"
@@ -20,7 +23,7 @@ ssh_ec2:
 	ssh -i $(AWS_EC2_PEM) $(INSTANCE)
 
 check_ec2:
-	ssh -i $(AWS_EC2_PEM) -t $(INSTANCE) "df -h && ls data/ | wc -l && sudo systemctl status listen"
+	ssh -i $(AWS_EC2_PEM) -t $(INSTANCE) "$$(cat bin/ec2check)"
 
 stop_ec2:
 	ssh -i $(AWS_EC2_PEM) -t $(INSTANCE) "sudo systemctl stop listen"
