@@ -8,7 +8,7 @@ mp_list:
 	python3 bin/getlist.py
 
 mp_sample:
-	python3 bin/sample.py > data/mp/sample
+	python3 bin/sample_mps.py > data/mp/sample
 
 tweet_text_sample:
 	python3 data/twitter/data.zip data/mp/sample
@@ -27,3 +27,10 @@ check_ec2:
 
 stop_ec2:
 	ssh -i $(AWS_EC2_PEM) -t $(INSTANCE) "sudo systemctl stop listen"
+
+collect:
+	mkdir -p data/tweets
+	scp -i $(AWS_EC2_PEM) -r $(AWS_EC2_USER)@$(AWS_EC2_INSTANCE):data/ ./data/tweets/
+
+tweet_sample:
+	python bin/sample_tweets.py

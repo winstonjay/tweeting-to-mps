@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 feilds='{id_str, created_at, text, in_reply_to_screen_name}'
 
-for line in "$(cat data/twitter/sample.ndjson)"; do
+for line in "$(cat data/tweets/data/2019-11-21T1824.ndjson)"; do
     echo $line | jq "$feilds" --compact-output
 done
