@@ -30,16 +30,25 @@ def proccess_file(path):
 def process_line(line):
     try:
         raw = json.loads(line.strip())
-        data = {key: raw[key] for key in fields}
+        data = {key: raw[key] for key in fields if key != 'party'}
+        if 'extended_tweet' in raw:
+            data['text'] = raw['extended_tweet']['full_text']
         data['text'] = data['text'].replace('\n', ' ')
+        data['party'] = party_map[data['in_reply_to_screen_name']]
         main.writer.writerow(data)
         main.total += 1
     except json.decoder.JSONDecodeError:
         print(f"Error in file: {main.path}")
         print(f'\t"{line}"')
 
+def load_party_map():
+    with open('./data/mp/mp_list.json') as fp:
+        mps = json.load(fp)
+    return {mp['screen_name']: mp['party'] for mp in mps}
 
-fields = ('id_str', 'created_at', 'text', 'in_reply_to_screen_name')
+party_map = load_party_map()
+
+fields = ['id_str', 'created_at', 'party', 'in_reply_to_screen_name', 'text']
 
 
 if __name__ == '__main__':
